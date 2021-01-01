@@ -23,56 +23,21 @@ on fs
     symlink /mnt/vendor/nvdata /vendor/nvdata
 
     install_keyring
-    start hwservicemanager
-    start servicemanager
 
 on post-fs
     # Support A/B feature for emmc boot region
     symlink /dev/block/mmcblk0boot0 /dev/block/platform/bootdevice/by-name/preloader_a
     symlink /dev/block/mmcblk0boot1 /dev/block/platform/bootdevice/by-name/preloader_b
 
-service hwservicemanager /sbin/hwservicemanager
-    user root
-    group root
-    disabled
-    onrestart setprop hwservicemanager.ready false
-    seclabel u:r:recovery:s0
-
-service servicemanager /sbin/servicemanager
-    user root
-    group root readproc
-    disabled
-    seclabel u:r:recovery:s0
-
-service keystore_auth /sbin/keystore_auth
-    oneshot
-    user system
-    group root
-    disabled
-    seclabel u:r:recovery:s0
-
-service keystore /sbin/keystore /tmp/misc/keystore
-    user root
-    group root drmrpc readproc
-    disabled
-    seclabel u:r:recovery:s0
-
-service gatekeeper-1-0 /sbin/android.hardware.gatekeeper@1.0-service
+service gatekeeper-1-0 /vendor/bin/hw/android.hardware.gatekeeper@1.0-service
     user root
     group root
     disabled
     seclabel u:r:recovery:s0
 
-service keymaster-3-0 /sbin/android.hardware.keymaster@3.0-service
+service keymaster-4-0 /vendor/bin/hw/android.hardware.keymaster@4.0-service.beanpod
     user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0
-
-service capi-2-0 /sbin/vendor.microtrust.hardware.capi@2.0-service
-    user root
-    group root
-    oneshot
+    group root drmrpc
     disabled
     seclabel u:r:recovery:s0
 
@@ -80,30 +45,26 @@ on property:hwservicemanager.ready=true
     write /proc/bootprof "start teei_daemon (on fs)"
     start teei_daemon
     write /proc/bootprof "start teei_daemon end (on fs)"
-    start capi-2-0
-    start keymaster-3-0
+    start keymaster-4-0
     start gatekeeper-1-0
 
 on property:ro.crypto.state=unsupported
-    stop capi-2-0
     stop teei_daemon
-    stop keymaster-3-0
+    stop keymaster-4-0
     stop gatekeeper-1-0
     stop servicemanager
     stop hwservicemanager
 
 on property:ro.crypto.state=unencrypted
-    stop capi-2-0
     stop teei_daemon
-    stop keymaster-3-0
+    stop keymaster-4-0
     stop gatekeeper-1-0
     stop servicemanager
     stop hwservicemanager
 
 on property:twrp.decrypt.done=true
-    stop capi-2-0
     stop teei_daemon
-    stop keymaster-3-0
+    stop keymaster-4-0
     stop gatekeeper-1-0
     stop servicemanager
     stop hwservicemanager

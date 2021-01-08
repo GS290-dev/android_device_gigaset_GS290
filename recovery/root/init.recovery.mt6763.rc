@@ -5,6 +5,10 @@ on init
     symlink /dev/block/platform/bootdevice /dev/block/bootdevice
     export LD_LIBRARY_PATH /sbin:/vendor/lib64:/vendor/lib64/hw
 
+    # Workaround for setting AVB version
+    setprop ro.boot.avb_version 1.0
+    setprop ro.boot.vbmeta.avb_version ${ro.boot.avb_version}
+
 on fs
     mkdir /mnt/vendor 0700 root root
     mkdir /mnt/vendor/protect_f 0700 root root

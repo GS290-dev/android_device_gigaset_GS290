@@ -5,6 +5,10 @@ on init
     symlink /dev/block/platform/bootdevice /dev/block/bootdevice
     export LD_LIBRARY_PATH /sbin:/vendor/lib64:/vendor/lib64/hw
 
+    # Allow writing to preloader partitions
+    write /sys/block/mmcblk0boot0/force_ro 0
+    write /sys/block/mmcblk0boot1/force_ro 0
+
 on fs
     mkdir /mnt/vendor 0700 root root
     mkdir /mnt/vendor/protect_f 0700 root root

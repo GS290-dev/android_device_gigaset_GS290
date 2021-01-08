@@ -9,6 +9,10 @@ on init
     setprop ro.boot.avb_version 1.0
     setprop ro.boot.vbmeta.avb_version ${ro.boot.avb_version}
 
+    # Allow writing to preloader partitions
+    write /sys/block/mmcblk0boot0/force_ro 0
+    write /sys/block/mmcblk0boot1/force_ro 0
+
 on fs
     mkdir /mnt/vendor 0700 root root
     mkdir /mnt/vendor/protect_f 0700 root root

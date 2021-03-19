@@ -135,7 +135,7 @@ ENABLE_VENDOR_RIL_SERVICE := true
 VENDOR_SECURITY_PATCH := 2020-11-05
 
 # SELinux
-include device/mediatek/sepolicy/sepolicy.mk
+#include device/mediatek/sepolicy/sepolicy.mk
 #BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(DEVICE_PATH)/sepolicy/private
 #BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 

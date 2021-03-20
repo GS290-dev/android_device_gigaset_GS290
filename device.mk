@@ -288,6 +288,7 @@ PRODUCT_PACKAGES += \
 
 # WiFi
 PRODUCT_PACKAGES += \
+    android.hardware.wifi@1.0-service-lazy \
     libkeystore-engine-wifi-hidl \
     libkeystore-wifi-hidl
 

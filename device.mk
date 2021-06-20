@@ -266,12 +266,17 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libsensorndkbridge
 
+# Shims
+PRODUCT_PACKAGES += \
+    ImsServiceBase
+
 # Soong
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
 
 # Telephony
 PRODUCT_BOOT_JARS += \
+    ImsServiceBase \
     mediatek-common \
     mediatek-framework \
     mediatek-ims-base \
